@@ -4,6 +4,6 @@ namespace WebApp.Models
 {
     public class EthereumTransactionSearchResult
     {
-        public List<EthereumTransactionDTO> Transactions { get; set; } = new List<EthereumTransactionDTO>();
+        public List<EthereumTransactionDto> Transactions { get; set; } = new List<EthereumTransactionDto>();
     }
 }

@@ -9,11 +9,11 @@ namespace WebApp.Actions
     public class EthereumTransactionSearchActionHandler : IEthereumTransactionSearchActionHandler
     {
         private readonly IEthereumService _ethereumService;
-        private readonly IEthereumTransactionMapper<EthereumTransactionDTO> _mapper;
+        private readonly IEthereumTransactionMapper<EthereumTransactionDto> _mapper;
 
         public EthereumTransactionSearchActionHandler(
             IEthereumService ethereumService, 
-            IEthereumTransactionMapper<EthereumTransactionDTO> mapper)
+            IEthereumTransactionMapper<EthereumTransactionDto> mapper)
         {
             _ethereumService = ethereumService;
             _mapper = mapper;

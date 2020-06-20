@@ -2,11 +2,11 @@
 
 namespace WebApp.Mapping
 {
-    public class EthereumTransactionMapper : IEthereumTransactionMapper<EthereumTransactionDTO>
+    public class EthereumTransactionMapper : IEthereumTransactionMapper<EthereumTransactionDto>
     {
-        public EthereumTransactionDTO Map(EthereumTransaction source) 
+        public EthereumTransactionDto Map(EthereumTransaction source) 
         {
-            var result = new EthereumTransactionDTO();
+            var result = new EthereumTransactionDto();
 
             if (source == null)
             {

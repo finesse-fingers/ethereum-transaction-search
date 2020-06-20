@@ -3,7 +3,7 @@
     /// <summary>
     /// UI view model
     /// </summary>
-    public class EthereumTransactionDTO
+    public class EthereumTransactionDto
     {
         public string BlockHash { get; set; }
         public string BlockNumber { get; set; }
