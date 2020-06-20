@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using System;
 using WebApp.Actions;
 using WebApp.Factories;
 using WebApp.Mapping;
@@ -27,9 +29,11 @@ namespace WebApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddHttpClient<IEthereumService, EthereumService>();
+            services.AddHttpClient<IEthereumService, EthereumService>()
+                .AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(600))); ;
+            
             services.AddSingleton<IInfuraRequestBuilder, InfuraRequestBuilder>();
-            services.AddSingleton<IEthereumTransactionMapper<EthereumTransactionDTO>, EthereumTransactionMapper>();
+            services.AddSingleton<IEthereumTransactionMapper<EthereumTransactionDto>, EthereumTransactionMapper>();
             services.AddTransient<IEthereumTransactionSearchActionHandler, EthereumTransactionSearchActionHandler>();
         }
 
