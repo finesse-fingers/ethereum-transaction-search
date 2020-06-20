@@ -22,7 +22,7 @@ namespace WebApp.UnitTests
             ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
                 .ReturnsAsync(new List<EthereumTransaction>());
 
-            var action = new EthereumTransactionSearchHandler(ethereumServiceMock.Object, mapper);
+            var action = new EthereumTransactionSearchActionHandler(ethereumServiceMock.Object, mapper);
 
             var searchRequest = new EthereumTransactionSearchRequest
             {
@@ -49,7 +49,7 @@ namespace WebApp.UnitTests
             ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
                 .ReturnsAsync(transactions);
 
-            var action = new EthereumTransactionSearchHandler(ethereumServiceMock.Object, mapper);
+            var action = new EthereumTransactionSearchActionHandler(ethereumServiceMock.Object, mapper);
 
             var searchRequest = new EthereumTransactionSearchRequest
             {
@@ -81,7 +81,7 @@ namespace WebApp.UnitTests
             ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
                 .ReturnsAsync(transactions);
 
-            var action = new EthereumTransactionSearchHandler(ethereumServiceMock.Object, mapper);
+            var action = new EthereumTransactionSearchActionHandler(ethereumServiceMock.Object, mapper);
 
             var searchRequest = new EthereumTransactionSearchRequest
             {

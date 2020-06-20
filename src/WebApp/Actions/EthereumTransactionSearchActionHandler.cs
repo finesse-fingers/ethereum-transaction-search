@@ -6,12 +6,12 @@ using WebApp.Services;
 
 namespace WebApp.Actions
 {
-    public class EthereumTransactionSearchHandler : IEthereumTransactionSearchHandler
+    public class EthereumTransactionSearchActionHandler : IEthereumTransactionSearchActionHandler
     {
         private readonly IEthereumService _ethereumService;
         private readonly IEthereumTransactionMapper<EthereumTransactionDTO> _mapper;
 
-        public EthereumTransactionSearchHandler(
+        public EthereumTransactionSearchActionHandler(
             IEthereumService ethereumService, 
             IEthereumTransactionMapper<EthereumTransactionDTO> mapper)
         {

@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject IEthereumTransactionSearchHandler SearchHandler;
+@inject IEthereumTransactionSearchActionHandler SearchActionHandler;
 
 <div class="card">
     <div class="card-body">
@@ -93,7 +93,7 @@
     {
         searchResult = null;
         isSearching = true;
-        searchResult = await SearchHandler.Search(searchRequest);
+        searchResult = await SearchActionHandler.Search(searchRequest);
         isSearching = false;
     }
 }

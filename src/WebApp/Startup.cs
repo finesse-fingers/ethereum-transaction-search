@@ -30,7 +30,7 @@ namespace WebApp
             services.AddHttpClient<IEthereumService, EthereumService>();
             services.AddSingleton<IInfuraRequestBuilder, InfuraRequestBuilder>();
             services.AddSingleton<IEthereumTransactionMapper<EthereumTransactionDTO>, EthereumTransactionMapper>();
-            services.AddTransient<IEthereumTransactionSearchHandler, EthereumTransactionSearchHandler>();
+            services.AddTransient<IEthereumTransactionSearchActionHandler, EthereumTransactionSearchActionHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

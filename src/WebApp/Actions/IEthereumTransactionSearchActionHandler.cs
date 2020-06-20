@@ -3,7 +3,7 @@ using WebApp.Models;
 
 namespace WebApp.Actions
 {
-    public interface IEthereumTransactionSearchHandler
+    public interface IEthereumTransactionSearchActionHandler
     {
         /// <summary>
         /// Search for ethereum transactions
