@@ -1,8 +1,11 @@
 ﻿namespace WebApp.Models
 {
-    public class EthereumTransactionResult
+    /// <summary>
+    /// UI view model
+    /// </summary>
+    public class EthereumTransactionDTO
     {
-        public string BlackHash { get; set; }
+        public string BlockHash { get; set; }
         public string BlockNumber { get; set; }
         public string Gas { get; set; }
         public string Hash { get; set; }

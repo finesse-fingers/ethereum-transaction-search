@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Actions;
+using WebApp.Factories;
+using WebApp.Mapping;
+using WebApp.Models;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -21,6 +26,11 @@ namespace WebApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddHttpClient<IEthereumService, EthereumService>();
+            services.AddSingleton<IInfuraRequestBuilder, InfuraRequestBuilder>();
+            services.AddSingleton<IEthereumTransactionMapper<EthereumTransactionDTO>, EthereumTransactionMapper>();
+            services.AddTransient<IEthereumTransactionSearchHandler, EthereumTransactionSearchHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
