@@ -1,7 +1,5 @@
-# Ethereum Transaction search
-Search the transactions associated with an ethereum address given a block number.
-
-The solution is deployed to https://ethereum-transaction-search.azurewebsites.net
+# Ethereum transaction search
+Search the transactions associated with an ethereum address given a block number. The solution is deployed to https://ethereum-transaction-search.azurewebsites.net
 
 ## Dependencies
 * Dotnet Core 3.1
