@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Mapping;
 using WebApp.Models;
@@ -23,9 +24,19 @@ namespace WebApp.Actions
             EthereumTransactionSearchRequest searchRequest)
         {
             var result = new EthereumTransactionSearchResult();
+            IEnumerable<EthereumTransaction> transactions;
 
-            var transactions = await _ethereumService.GetTransactionsByBlockNumberAsync(
-                searchRequest.BlockNumberNumerical);
+            try
+            {
+                transactions = await _ethereumService.GetTransactionsByBlockNumberAsync(
+                    searchRequest.BlockNumberNumerical);
+            }
+            catch
+            {
+                // if we got here, we possibly encountered a transient error
+                result.TransientError = true;
+                return result;
+            }
 
             // filter transactions down if they are associated with an address
             var addressToMatch = searchRequest.Address.Trim();

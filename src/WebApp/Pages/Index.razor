@@ -37,7 +37,16 @@
     </div>
 }
 
-@if (searchResult != null && searchResult.Transactions?.Count == 0)
+@if (searchRequest != null && searchResult?.TransientError == true)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5>Oops, the transaction search is currently unavailable</h5>
+        </div>
+    </div>
+}
+
+@if (searchResult != null && searchResult?.TransientError == false && searchResult.Transactions?.Count == 0)
 {
     <div class="card mt-3">
         <div class="card-body">

@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WebApp.Actions;
 using WebApp.Mapping;
@@ -30,11 +31,12 @@ namespace WebApp.UnitTests
             };
 
             // act
-            var result = await action.Search(searchRequest);
+            var actual = await action.Search(searchRequest);
 
             // assert
-            Assert.NotNull(result);
-            Assert.Empty(result.Transactions);
+            Assert.NotNull(actual);
+            Assert.Empty(actual.Transactions);
+            Assert.False(actual.TransientError);
         }
 
         [Theory]
@@ -64,6 +66,7 @@ namespace WebApp.UnitTests
             // assert
             Assert.NotNull(actual);
             Assert.Single(actual.Transactions);
+            Assert.False(actual.TransientError);
         }
 
         [Theory]
@@ -93,6 +96,7 @@ namespace WebApp.UnitTests
             // assert
             Assert.NotNull(actual);
             Assert.Single(actual.Transactions);
+            Assert.False(actual.TransientError);
         }
 
         [Fact]
@@ -120,6 +124,35 @@ namespace WebApp.UnitTests
             // assert
             Assert.NotNull(actual);
             Assert.Empty(actual.Transactions);
+            Assert.False(actual.TransientError);
+        }
+
+        [Fact]
+        public async Task TransactionSearch_ThrowException_ShouldReturnEmpty()
+        {
+            var mapper = new EthereumTransactionMapper();
+            var ethereumServiceMock = new Mock<IEthereumService>();
+
+            // mock returning a list of transactions
+            var transactions = TestFactory.MakeMockTransactions();
+            ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
+                .ThrowsAsync(new HttpRequestException());
+
+            var action = new EthereumTransactionSearchActionHandler(ethereumServiceMock.Object, mapper);
+
+            var searchRequest = new EthereumTransactionSearchRequest
+            {
+                Address = "invalidAddress",
+                BlockNumber = "0x8b99c9"
+            };
+
+            // act
+            var actual = await action.Search(searchRequest);
+
+            // assert
+            Assert.NotNull(actual);
+            Assert.Empty(actual.Transactions);
+            Assert.True(actual.TransientError);
         }
     }
 }
