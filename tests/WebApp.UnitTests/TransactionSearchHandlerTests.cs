@@ -38,14 +38,16 @@ namespace WebApp.UnitTests
             Assert.Empty(result.Transactions);
         }
 
-        [Fact]
-        public async Task TransactionSearch_MockTransaction_ShouldSucceed()
+        [Theory]
+        [InlineData("0xc779a4bdc3696baf2a6d62ddfc2d0664d3c4fd7f")]
+        [InlineData("0x9648a2f7e70ed5492f46d4485c17ff7bc20f64b4")]
+        public async Task TransactionSearch_ShouldMatchOneTransaction_UsingFromField(string addressToMatch)
         {
             var mapper = new EthereumTransactionMapper();
             var ethereumServiceMock = new Mock<IEthereumService>();
 
             // mock returning a list of transactions
-            var transactions = TestFactory.MakeSingleTransaction();
+            var transactions = TestFactory.MakeMockTransactions();
             ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
                 .ReturnsAsync(transactions);
 
@@ -53,7 +55,7 @@ namespace WebApp.UnitTests
 
             var searchRequest = new EthereumTransactionSearchRequest
             {
-                Address = "0xc779a4bdc3696baf2a6d62ddfc2d0664d3c4fd7f",
+                Address = addressToMatch,
                 BlockNumber = "0x8b99c9"
             };
 
@@ -63,11 +65,35 @@ namespace WebApp.UnitTests
             // assert
             Assert.NotNull(actual);
             Assert.Single(actual.Transactions);
-            Assert.Equal(transactions.First().BlockHash, actual.Transactions.First().BlockHash);
-            Assert.Equal(transactions.First().BlockNumber, actual.Transactions.First().BlockNumber);
-            Assert.Equal(transactions.First().From, actual.Transactions.First().From);
-            Assert.Equal(transactions.First().To, actual.Transactions.First().To);
-            Assert.Equal(transactions.First().Value, actual.Transactions.First().Value);
+        }
+
+        [Theory]
+        [InlineData("0x92d44b6b3a23b48a93b1bce4d206c0280f96b1cd")]
+        [InlineData("0xdf8751a689387136d79a1ff54349f7db681b5b86")]
+        public async Task TransactionSearch_ShouldMatchOneTransaction_UsingToField(string addressToMatch)
+        {
+            var mapper = new EthereumTransactionMapper();
+            var ethereumServiceMock = new Mock<IEthereumService>();
+
+            // mock returning a list of transactions
+            var transactions = TestFactory.MakeMockTransactions();
+            ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
+                .ReturnsAsync(transactions);
+
+            var action = new EthereumTransactionSearchActionHandler(ethereumServiceMock.Object, mapper);
+
+            var searchRequest = new EthereumTransactionSearchRequest
+            {
+                Address = addressToMatch,
+                BlockNumber = "0x8b99c9"
+            };
+
+            // act
+            var actual = await action.Search(searchRequest);
+
+            // assert
+            Assert.NotNull(actual);
+            Assert.Single(actual.Transactions);
         }
 
         [Fact]
@@ -77,7 +103,7 @@ namespace WebApp.UnitTests
             var ethereumServiceMock = new Mock<IEthereumService>();
 
             // mock returning a list of transactions
-            var transactions = TestFactory.MakeSingleTransaction();
+            var transactions = TestFactory.MakeMockTransactions();
             ethereumServiceMock.Setup(s => s.GetTransactionsByBlockNumberAsync(It.IsAny<long>()))
                 .ReturnsAsync(transactions);
 
